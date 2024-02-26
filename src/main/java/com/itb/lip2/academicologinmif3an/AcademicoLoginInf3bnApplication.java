@@ -1,4 +1,4 @@
-package com.itb.lip2.academicologininf3bn;
+package com.itb.lip2.academicologinmif3an;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
