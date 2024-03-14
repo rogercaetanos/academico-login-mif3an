@@ -44,6 +44,25 @@ public class Usuario {
 	
 	private Collection<Papel> papeis;
 	
+	public Usuario() {
+		
+	}
+	
+	
+	public Usuario(String nome, String sobrenome, String email, String password, Collection<Papel> papeis) {
+		
+		this.nome = nome;
+		this.sobrenome = sobrenome;
+		this.email = email;
+		this.password = password;
+		this.papeis = papeis;
+		
+	}
+	
+	
+	
+	
+	
 	public Long getId() {
 		return id;
 	}
