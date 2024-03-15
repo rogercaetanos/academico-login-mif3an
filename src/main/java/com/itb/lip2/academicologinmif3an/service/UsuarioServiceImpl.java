@@ -82,6 +82,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 		usuarioRepository.save(usuario);
 		
 	}
-	
+
+
+	@Override
+	public Papel saveRole(Papel papel) {
+		
+		return papelRepository.save(papel);
+	}
+
+
+
 
 }

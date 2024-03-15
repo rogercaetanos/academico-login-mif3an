@@ -22,6 +22,14 @@ public class Papel {
 	public Papel() {
 		
 	}
+	
+	// Construtor com o nomePapel 
+	
+	public Papel(String nomePapel) {
+		
+		this.nomePapel = nomePapel;
+	}
+	
 
 	// Construtor com o id e o nomePapel 
 	
