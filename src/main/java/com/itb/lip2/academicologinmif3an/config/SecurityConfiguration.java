@@ -51,25 +51,26 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.authorizeRequests()
-		                        .antMatchers("/academico/registration**",
-		                        		     "/academico/registration/**",
+		                        .antMatchers("/academico/auth/registration**",
+		                        		     "/academico/auth/registration/**",
+		                        		     "/**",
 		                        		     "/js/**",
 		                        		     "/css/**",
 		                        		     "/img/**").permitAll()
 		                         .and().authorizeRequests()
-	                             .antMatchers(GET, "/usuarios/**").hasAnyAuthority("ROLE_USER")
+	                             .antMatchers(GET, "/academico/usuarios/**").hasAnyAuthority("ROLE_USER")
 	                             .anyRequest().authenticated()
 	                             .and()
 	                             .httpBasic()
 	                             .and()
 	                             .formLogin()
-	                             .defaultSuccessUrl("/usuario/home", true)
-	                             .loginPage("/academico/login").permitAll()
+	                             .defaultSuccessUrl("/academico/usuarios/home", true)
+	                             .loginPage("/academico/auth/login").permitAll()
 	                             .and()
 	                             .logout()
 	                             .invalidateHttpSession(true)
-	                             .logoutRequestMatcher( new AntPathRequestMatcher("/academico/logout"))
-	                             .logoutSuccessUrl("/academico/login?logout")
+	                             .logoutRequestMatcher( new AntPathRequestMatcher("/academico/auth/logout"))
+	                             .logoutSuccessUrl("/academico/auth/login?logout")
 	                             .permitAll();
 		
 		              

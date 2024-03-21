@@ -7,7 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 //@RestController // Controlador para API
 
-@Controller                                  // Controlador para WEB
+@Controller     // Controlador para WEB
+@RequestMapping("/academico/usuarios")
 public class UserController {
+	
+	
+	
+	
+	@GetMapping("/home")
+	public String home() {
+		
+		return "index-user";
+	}
+	
+	
 	
 }

@@ -91,6 +91,15 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 
+	@Override
+	public Usuario getAuthenticatedUser() {
+		
+		
+		
+		return null;
+	}
+
+
 
 
 }
