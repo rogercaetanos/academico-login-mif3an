@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 <meta charset="UTF-8">
-<title>Registration and Login App</title>
+<title>Home Page Administrativo</title>
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -23,7 +23,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+				<a class="navbar-brand" href="#" th:href="@{/academico/admin/home}">Registration and
 					Login Module</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
@@ -39,8 +39,8 @@
 	<br>
 
 	<div class="container">
-		<h1>Home Page - Usuário</h1>
-		Bem Vindo <span sec:authentication="principal.username"> User</span>
+		<h1>Home Page - Administrador</h1>
+		Welcome <span sec:authentication="principal.username"> User</span>
 	</div>
 </body>
 </html>

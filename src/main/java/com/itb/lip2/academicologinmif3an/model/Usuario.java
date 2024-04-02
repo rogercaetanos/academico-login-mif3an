@@ -2,6 +2,7 @@ package com.itb.lip2.academicologinmif3an.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -29,6 +30,17 @@ public class Usuario {
 	private String tipoPrincipalUsuario;
 	private LocalDate dataNascimento;
 	private boolean codStatusUsuario;
+	private String logradouro;
+	private String bairro;
+	private String cep;
+	private String numero;
+	private String uf;
+	private String cidade;
+	private String pais;
+	
+	
+	
+	
 	
 	// Relacionamento  M:N
 	
@@ -48,7 +60,6 @@ public class Usuario {
 		
 	}
 	
-	
 	public Usuario(String nome, String sobrenome, String email, String password, Collection<Papel> papeis) {
 		
 		this.nome = nome;
@@ -58,10 +69,6 @@ public class Usuario {
 		this.papeis = papeis;
 		
 	}
-	
-	
-	
-	
 	
 	public Long getId() {
 		return id;
@@ -118,6 +125,82 @@ public class Usuario {
 		this.papeis = papeis;
 	}
 	
+	public String getLogradouro() {
+		return logradouro;
+	}
+
+	public void setLogradouro(String logradouro) {
+		this.logradouro = logradouro;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+
+	public String getPais() {
+		return pais;
+	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	
+	
+	
+	
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(id, other.id);
+	}
 	
 	
 }
