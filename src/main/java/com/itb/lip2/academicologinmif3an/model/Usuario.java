@@ -2,19 +2,27 @@ package com.itb.lip2.academicologinmif3an.model;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="usuarios", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -39,9 +47,6 @@ public class Usuario {
 	private String pais;
 	
 	
-	
-	
-	
 	// Relacionamento  M:N
 	
 	// FetchType.EAGER => Busca também os relacionados
@@ -55,6 +60,13 @@ public class Usuario {
 			)
 	
 	private Collection<Papel> papeis;
+	
+	
+	@OneToMany
+	@JoinColumn(name="id_usuario")
+	@JsonIgnore
+	private List<Curso> cursos;
+	
 	
 	public Usuario() {
 		
@@ -174,15 +186,21 @@ public class Usuario {
 	}
 
 	
-	
-	
-	
 	public String getCidade() {
 		return cidade;
 	}
 
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+	
+	
+	public List<Curso> getCursos() {
+		return cursos;
+	}
+
+	public void setCursos(List<Curso> cursos) {
+		this.cursos = cursos;
 	}
 
 	@Override

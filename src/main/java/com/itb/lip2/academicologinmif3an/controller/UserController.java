@@ -78,11 +78,7 @@ public class UserController {
 	@PostMapping("/perfil")
 	public String updatePerfil(Usuario usuario) {
 		
-		Usuario usuarioDb = usuarioService.findByEmail(usuario.getEmail());
-		
-		usuarioDb.setBairro(usuario.getBairro());
-		  
-		
+		usuarioService.update(usuario);
 		
 		return "redirect:/academico/usuarios/perfil";
 	}

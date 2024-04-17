@@ -9,6 +9,7 @@ public interface UsuarioService extends UserDetailsService {
 	
 	Usuario findByEmail(String email);
 	Usuario save(Usuario usuario);
+	Usuario update(Usuario usuario);
 	void addRoleToUser(String username, String roleName);
 	Papel saveRole(Papel papel);
 	Usuario getAuthenticatedUser();

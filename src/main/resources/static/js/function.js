@@ -1,7 +1,6 @@
 // Variável que receberá o objeto XMLHttpRequest
 var req;
 function validarDados(campo, valor, url) {
-	
 
 // Verificar o Browser
 // Firefox, Google Chrome, Safari e outros

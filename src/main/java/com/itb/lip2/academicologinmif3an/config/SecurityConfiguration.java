@@ -14,6 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 
 import com.itb.lip2.academicologinmif3an.service.UsuarioService;
@@ -27,7 +28,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
 	
 	
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
+	 BCryptPasswordEncoder passwordEncoder() {
 		
 		 return  new BCryptPasswordEncoder();
 	}
@@ -45,36 +46,34 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
 	  auth.authenticationProvider(authenticationProvider());
+
 	}
+	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
-		http.authorizeRequests()
-		                        .antMatchers("/academico/auth/registration**",
-		                        		     "/academico/auth/registration/**",
-		                        		     "/**",
-		                        		     "/js/**",
-		                        		     "/css/**",
-		                        		     "/img/**").permitAll()
-		                         .and().authorizeRequests()
-	                             .antMatchers(GET, "/academico/usuarios/**").hasAnyAuthority("ROLE_USER")
-	                             .antMatchers(GET, "/academico/admin/**").hasAnyAuthority("ROLE_ADMIN")
-	                             .antMatchers(GET, "/academico/professor/**").hasAnyAuthority("ROLE_INSTRUCTOR")
-	                             .antMatchers(GET, "/academico/aluno/**").hasAnyAuthority("ROLE_STUDENT")
-	                             .anyRequest().authenticated()
-	                             .and()
-	                             .httpBasic()
-	                             .and()
-	                             .formLogin()
-	                             .defaultSuccessUrl("/academico/usuarios/living-room", true)
-	                             .loginPage("/academico/auth/login").permitAll()
-	                             .and()
-	                             .logout()
-	                             .invalidateHttpSession(true)
-	                             .logoutRequestMatcher( new AntPathRequestMatcher("/academico/auth/logout"))
-	                             .logoutSuccessUrl("/academico/auth/login?logout")
-	                             .permitAll();
+
+        http.authorizeRequests(requests -> requests
+                .antMatchers("/academico/auth/registration**",
+                        "/academico/auth/registration/**",
+                        "/academico/auth/getSearchResult/**",
+                        "/js/**",
+                        "/css/**",
+                        "/img/**").permitAll()).authorizeRequests(requests -> requests
+                .antMatchers(GET, "/academico/usuarios/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(GET, "/academico/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(POST, "/academico/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(GET, "/academico/professor/**").hasAnyAuthority("ROLE_INSTRUCTOR")
+                .antMatchers(GET, "/academico/aluno/**").hasAnyAuthority("ROLE_STUDENT")
+                .anyRequest().authenticated())
+                .formLogin(login -> login
+                        .defaultSuccessUrl("/academico/usuarios/living-room", true)
+                        .loginPage("/academico/auth/login").permitAll())
+                .logout(logout -> logout
+                        .invalidateHttpSession(true)
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/academico/auth/logout"))
+                        .logoutSuccessUrl("/academico/auth/login?logout")
+                        .permitAll());
 		
 		              
 	}

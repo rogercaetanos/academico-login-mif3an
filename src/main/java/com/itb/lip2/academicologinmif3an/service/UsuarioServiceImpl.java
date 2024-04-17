@@ -53,6 +53,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Papel> papeis) {
 		
+		
 		return papeis.stream().map(papel -> new SimpleGrantedAuthority(papel.getNomePapel())).collect(Collectors.toList());
 	}
 
@@ -105,6 +106,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 		Usuario usuario = usuarioRepository.findByEmail(username);
 		
 		 return usuario;
+	}
+
+
+	@Override
+	public Usuario update(Usuario usuario) {
+
+        Usuario usuarioDb = usuarioRepository.findByEmail(usuario.getEmail());
+		
+		usuarioDb.setNome(usuario.getNome());
+		usuarioDb.setSobrenome(usuario.getSobrenome());
+		usuarioDb.setDataNascimento(usuario.getDataNascimento());
+		usuarioDb.setCep(usuario.getCep());
+		usuarioDb.setLogradouro(usuario.getLogradouro());
+		usuarioDb.setNumero(usuario.getNumero());
+		usuarioDb.setBairro(usuario.getBairro());
+		usuarioDb.setCidade(usuario.getCidade());
+		usuarioDb.setUf(usuario.getUf());
+		usuarioDb.setPais(usuario.getPais());
+
+		return usuarioRepository.save(usuarioDb);
 	}
 
 }
