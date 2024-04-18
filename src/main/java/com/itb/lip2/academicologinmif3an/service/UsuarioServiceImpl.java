@@ -128,4 +128,18 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioRepository.save(usuarioDb);
 	}
 
+
+	@Override
+	public Usuario getUserByUsername(String username) {
+		
+		return usuarioRepository.findByEmail(username);
+	}
+
+
+	@Override
+	public Usuario findUserById(Long id) {
+		
+		return usuarioRepository.getById(id);
+	}
+
 }

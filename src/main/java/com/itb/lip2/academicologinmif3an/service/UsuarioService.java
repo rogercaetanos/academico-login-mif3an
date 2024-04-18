@@ -13,5 +13,10 @@ public interface UsuarioService extends UserDetailsService {
 	void addRoleToUser(String username, String roleName);
 	Papel saveRole(Papel papel);
 	Usuario getAuthenticatedUser();
+	
+	// Api
+	Usuario getUserByUsername(String username);
+	Usuario findUserById(Long id);
+	
 
 }
