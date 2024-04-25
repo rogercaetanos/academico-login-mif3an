@@ -3,6 +3,7 @@ package com.itb.lip2.academicologinmif3an.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,9 +15,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 
+import com.itb.lip2.academicologinmif3an.filter.CustomAuthenticationFilter;
 import com.itb.lip2.academicologinmif3an.service.UsuarioService;
 
 @Configuration
@@ -52,11 +53,18 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		// API	
+		CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), usuarioService);
+		customAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");		
+		http.csrf().disable();
+		// Término API
 
         http.authorizeRequests(requests -> requests
                 .antMatchers("/academico/auth/registration**",
                         "/academico/auth/registration/**",
                         "/academico/auth/getSearchResult/**",
+                        "/api/**",
                         "/js/**",
                         "/css/**",
                         "/img/**").permitAll()).authorizeRequests(requests -> requests
@@ -74,8 +82,27 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
                         .logoutRequestMatcher(new AntPathRequestMatcher("/academico/auth/logout"))
                         .logoutSuccessUrl("/academico/auth/login?logout")
                         .permitAll());
+        
+        
+        // API
+           http.addFilter(customAuthenticationFilter);
+        // Término API
 		
 		              
 	}
+	
+	
+	// API
+
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {	
+		return super.authenticationManagerBean();
+	}
+	
+	// Término API
+	
+	
+	
 		
 }
