@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.http.HttpMethod.GET;
@@ -18,6 +19,7 @@ import static org.springframework.http.HttpMethod.POST;
 
 
 import com.itb.lip2.academicologinmif3an.filter.CustomAuthenticationFilter;
+import com.itb.lip2.academicologinmif3an.filter.CustomAuthorizationFilter;
 import com.itb.lip2.academicologinmif3an.service.UsuarioService;
 
 @Configuration
@@ -86,6 +88,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
         
         // API
            http.addFilter(customAuthenticationFilter);
+           http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
         // Término API
 		
 		              
