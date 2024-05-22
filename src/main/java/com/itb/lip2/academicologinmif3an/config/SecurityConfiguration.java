@@ -66,7 +66,7 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
                 .antMatchers("/academico/auth/registration**",
                         "/academico/auth/registration/**",
                         "/academico/auth/getSearchResult/**",
-                        "/api/**",
+                      /*  "/api/**",*/
                         "/js/**",
                         "/css/**",
                         "/img/**").permitAll()).authorizeRequests(requests -> requests
@@ -75,6 +75,8 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
                 .antMatchers(POST, "/academico/admin/**").hasAnyAuthority("ROLE_ADMIN")
                 .antMatchers(GET, "/academico/professor/**").hasAnyAuthority("ROLE_INSTRUCTOR")
                 .antMatchers(GET, "/academico/aluno/**").hasAnyAuthority("ROLE_STUDENT")
+                .antMatchers(GET, "/api/v1/professor/**").hasAnyAuthority("ROLE_INSTRUCTOR")
+                
                 .anyRequest().authenticated())
                 .formLogin(login -> login
                         .defaultSuccessUrl("/academico/usuarios/living-room", true)
