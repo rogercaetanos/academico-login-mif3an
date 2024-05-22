@@ -66,7 +66,8 @@ public class SecurityConfiguration  extends WebSecurityConfigurerAdapter{
                 .antMatchers("/academico/auth/registration**",
                         "/academico/auth/registration/**",
                         "/academico/auth/getSearchResult/**",
-                      /*  "/api/**",*/
+                       "/api/v1/login/**",
+						"/api/v1/logout/**",
                         "/js/**",
                         "/css/**",
                         "/img/**").permitAll()).authorizeRequests(requests -> requests

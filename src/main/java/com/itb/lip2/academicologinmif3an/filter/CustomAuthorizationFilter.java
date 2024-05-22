@@ -1,10 +1,7 @@
 package com.itb.lip2.academicologinmif3an.filter;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -29,6 +26,8 @@ import static java.util.Arrays.stream;
 
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
+	List<String> blackList = new ArrayList<>();
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -36,14 +35,24 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 		if(request.getServletPath().equals("/api/v1/login")) {
 			
 			filterChain.doFilter(request, response); // Passar para o próximo filtro
-		}else if(request.getServletPath().equals("/api/v1/logout")) { 
-			
+		}else if(request.getServletPath().equals("/api/v1/logout")) {
+			String authorizationHeader = request.getHeader(AUTHORIZATION);
+			if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+				String access_tokens = authorizationHeader.substring("Bearer ".length());
+				// Removendo tokens antigos inválidos
+				   removeTokenInvalidTheBlackList();
+
+				// Toda vez que o usuário realizar o logout, adicionar o token na blackList "Lista negra"
+				blackList.add(access_tokens);
+			}
 		}else {
 			String authorizationHeader = request.getHeader(AUTHORIZATION);
 			
 			if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
 				try {
 					String token = authorizationHeader.substring("Bearer ".length());
+					// Verificar se o token ainda é valido, pois o usuário pode ter feito o logout antes do tempo expirar
+					token = verifyInBlackList(token);
 					Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 					JWTVerifier verifier = JWT.require(algorithm).build();
 					DecodedJWT decodedJWT = verifier.verify(token);
@@ -81,6 +90,27 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 			
 	}
 	
-	
+	private void removeTokenInvalidTheBlackList() {
+		for(int i = 0; i < blackList.size();  i++) {
+
+			try{
+				Algorithm algorithm = Algorithm.HMAC256("secret" . getBytes());
+				JWTVerifier verifier = JWT.require(algorithm).build();
+				DecodedJWT decodedJWT = verifier.verify(blackList.get(i)); // retorna uma exception, caso inválido
+			}catch (Exception e) {
+				blackList.remove(blackList.get(i));
+			}
+		}
+	}
+
+	private String verifyInBlackList(String token) throws Exception {
+
+		for(int i = 0; i < blackList.size(); i++) {
+			if(blackList.get(i).equals(token)){
+				throw new Exception("Acesso Negado!");
+			}
+		}
+		return token;
+	}
 
 }
