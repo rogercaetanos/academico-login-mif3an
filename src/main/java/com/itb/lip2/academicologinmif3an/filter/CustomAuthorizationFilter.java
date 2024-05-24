@@ -41,9 +41,9 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 				String access_tokens = authorizationHeader.substring("Bearer ".length());
 				// Removendo tokens antigos inválidos
 				   removeTokenInvalidTheBlackList();
-
 				// Toda vez que o usuário realizar o logout, adicionar o token na blackList "Lista negra"
 				blackList.add(access_tokens);
+				System.out.println("Total de tokens na lista negra " + blackList.size());
 			}
 		}else {
 			String authorizationHeader = request.getHeader(AUTHORIZATION);
